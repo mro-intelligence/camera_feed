@@ -79,7 +79,7 @@ case "${1:-}" in
   web)
     echo "Starting web server on port $WEB_PORT for device $VIRTUAL_DEVICE"
     echo "Open http://localhost:$WEB_PORT in your browser"
-    python3 camera_feed_server.py --device $VIRTUAL_DEVICE --port $WEB_PORT --width 1280 --height 720
+    uv run camera_feed_server.py --device $VIRTUAL_DEVICE --port $WEB_PORT --width 1280 --height 720
     ;;
 
   all)

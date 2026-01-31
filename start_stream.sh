@@ -5,8 +5,8 @@
 set -e
 
 # Configuration
-REMOTE_HOST="${REMOTE_HOST:-10.8.0.3}"
-LOCAL_HOST="${LOCAL_HOST:-10.8.0.2}"
+REMOTE_HOST="${REMOTE_HOST:-}"
+LOCAL_HOST="${LOCAL_HOST:-}"
 PORT="${PORT:-5000}"
 WEB_PORT="${WEB_PORT:-8080}"
 VIRTUAL_DEVICE="/dev/video2"
@@ -23,8 +23,8 @@ Modes:
   all         Start receiver and web server (in background)
 
 Environment variables:
-  REMOTE_HOST    Remote host to stream from (default: 10.8.0.3)
-  LOCAL_HOST     Local host IP (default: 10.8.0.2)
+  REMOTE_HOST    Remote host to stream from (required for 'stream' mode)
+  LOCAL_HOST     Local host IP (required for 'stream' mode)
   PORT           Streaming port (default: 5000)
   WEB_PORT       Web server port (default: 8080)
 
@@ -63,6 +63,11 @@ case "${1:-}" in
     ;;
 
   stream)
+    if [[ -z "$REMOTE_HOST" ]] || [[ -z "$LOCAL_HOST" ]]; then
+      echo "Error: REMOTE_HOST and LOCAL_HOST environment variables are required for stream mode"
+      echo "Example: REMOTE_HOST=192.168.1.10 LOCAL_HOST=192.168.1.20 $0 stream"
+      exit 1
+    fi
     echo "Starting stream from $REMOTE_HOST to $LOCAL_HOST:$PORT"
     ./start_ffmpeg.sh -m stream -r $REMOTE_HOST -l $LOCAL_HOST -p $PORT
     ;;

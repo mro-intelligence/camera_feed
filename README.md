@@ -49,18 +49,25 @@ pip3 install flask opencv-python
 
 Set environment variables to customize:
 ```bash
-export REMOTE_HOST=10.8.0.3  # Remote Mac IP
-export LOCAL_HOST=10.8.0.2   # Local machine IP
-export PORT=5000             # Streaming port
-export WEB_PORT=8080         # Web server port
+export REMOTE_HOST=<remote-ip>   # Remote Mac IP address
+export LOCAL_HOST=<local-ip>     # Local machine IP address
+export PORT=5000                  # Streaming port (optional, default: 5000)
+export WEB_PORT=8080              # Web server port (optional, default: 8080)
 
 ./start_stream.sh all
+```
+
+Example with actual IPs:
+```bash
+export REMOTE_HOST=192.168.1.10
+export LOCAL_HOST=192.168.1.20
+./start_stream.sh stream
 ```
 
 ## Architecture
 
 ```
-Remote Mac (10.8.0.3)          Local Linux (10.8.0.2)
+Remote Mac                      Local Linux
 ┌──────────────────┐           ┌─────────────────────┐
 │  Camera          │           │ ffmpeg receiver     │
 │     ↓            │           │        ↓            │

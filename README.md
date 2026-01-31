@@ -57,11 +57,20 @@ export WEB_PORT=8080              # Web server port (optional, default: 8080)
 ./start_stream.sh all
 ```
 
-Example with actual IPs:
+Examples:
 ```bash
-export REMOTE_HOST=192.168.1.10
+# Using IP addresses
+export REMOTE_HOST=user@192.168.1.10
 export LOCAL_HOST=192.168.1.20
 ./start_stream.sh stream
+
+# Using hostnames (e.g., SSH config hostname)
+export REMOTE_HOST=remote-host
+export LOCAL_HOST=192.168.1.20
+./start_stream.sh stream
+
+# One-liner
+REMOTE_HOST=user@192.168.1.10 LOCAL_HOST=192.168.1.20 ./start_stream.sh stream
 ```
 
 ## Architecture

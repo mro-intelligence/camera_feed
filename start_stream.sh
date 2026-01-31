@@ -9,7 +9,7 @@ REMOTE_HOST="${REMOTE_HOST:-}"
 LOCAL_HOST="${LOCAL_HOST:-}"
 PORT="${PORT:-5000}"
 WEB_PORT="${WEB_PORT:-8080}"
-VIRTUAL_DEVICE="/dev/video2"
+VIRTUAL_DEVICE="${VIRTUAL_DEVICE:-/dev/video2}"
 
 usage() {
   cat <<-EOT

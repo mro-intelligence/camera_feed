@@ -35,6 +35,10 @@ Examples:
   # Start receiver and web server
   $0 all
 
+  # With custom settings
+  REMOTE_HOST=user@192.168.1.10 LOCAL_HOST=192.168.1.20 $0 stream
+  VIRTUAL_DEVICE=/dev/video10 $0 receiver
+
   # Or start manually in separate terminals:
   $0 receiver    # Terminal 1
   $0 stream      # Terminal 2
@@ -59,7 +63,7 @@ case "${1:-}" in
 
   receiver)
     echo "Starting receiver on $LOCAL_HOST:$PORT -> $VIRTUAL_DEVICE"
-    ./start_ffmpeg.sh -m listen -p $PORT
+    ./start_ffmpeg.sh -m listen -p $PORT -d $VIRTUAL_DEVICE
     ;;
 
   stream)
@@ -83,7 +87,7 @@ case "${1:-}" in
 
     # Start receiver in background
     echo "Starting receiver..."
-    ./start_ffmpeg.sh -m listen -p $PORT > /tmp/receiver.log 2>&1 &
+    ./start_ffmpeg.sh -m listen -p $PORT -d $VIRTUAL_DEVICE > /tmp/receiver.log 2>&1 &
     RECEIVER_PID=$!
     echo "Receiver started (PID: $RECEIVER_PID, log: /tmp/receiver.log)"
 

@@ -9,6 +9,7 @@ remote_ffmpeg="/opt/local/bin/ffmpeg"
 remote_script="~/remote_camera_script.sh"  # Wrapper script with camera permissions
 port=5000
 proto=tcp
+virtual_device="/dev/video2"
 
 usage() {
   cat <<-EOT
@@ -23,23 +24,26 @@ Options:
   -l <local>              Local host IP to stream to (required for stream mode)
   -p <port>               Port number (default: 5000)
   -P <proto>              Protocol tcp or udp (default: tcp)
+  -d <device>             Virtual camera device (default: /dev/video2)
 
 Examples:
   $0 -m listen
-  $0 -m stream -r pi@192.168.1.100 -l 192.168.1.50
-  $0 -m stream -r pi@192.168.1.100 -l 192.168.1.50 -P udp -p 6000
+  $0 -m listen -d /dev/video10
+  $0 -m stream -r user@192.168.1.10 -l 192.168.1.50
+  $0 -m stream -r user@192.168.1.10 -l 192.168.1.50 -P udp -p 6000
 EOT
   exit 1
 }
 
 # Parse arguments
-while getopts "m:r:l:p:P:" opt; do
+while getopts "m:r:l:p:P:d:" opt; do
   case $opt in
     m) mode=$OPTARG ;;
     r) remote=$OPTARG ;;
     l) local=$OPTARG ;;
     p) port=$OPTARG ;;
     P) proto=$OPTARG ;;
+    d) virtual_device=$OPTARG ;;
     *) usage ;;
   esac
 done
@@ -64,8 +68,8 @@ if [[ "$mode" == "listen" ]]; then
 
   output_format="-f null -"  # Null output for testing (discards frames)
 
-  echo "Running: ffmpeg $listen_flag -i $input_source -f v4l2 /dev/video2"
-  ffmpeg $listen_flag -i $input_source -f v4l2 /dev/video2
+  echo "Running: ffmpeg $listen_flag -i $input_source -f v4l2 $virtual_device"
+  ffmpeg $listen_flag -i $input_source -f v4l2 $virtual_device
 
   # Alternative: discard frames for testing (uncomment to use)
   #ffmpeg $listen_flag -i $input_source $output_format

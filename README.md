@@ -1,6 +1,6 @@
 # Camera Feed Streaming
 
-Stream camera feed from a remote Mac to local machine and view in web browser.
+Stream camera feed from a remote Mac to local machine and view in web browser. Intended for use ie, when camera is needed for ML or inference workflows.
 
 ## Setup
 
